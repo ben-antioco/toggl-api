@@ -1,0 +1,4 @@
+<?php
+
+$TOGGL_TOKEN       = "YOUR_TOKEN_API";
+$TOGGL_BASE_URL    = 'https://www.toggl.com/api/v8';
