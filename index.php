@@ -1,23 +1,22 @@
 <?php
+
+require_once 'vendor/autoload.php';
+
+/*
 require_once __DIR__.DIRECTORY_SEPARATOR.'TogglInit.php';
 require_once __DIR__.DIRECTORY_SEPARATOR.'TogglProject.php';
+*/
 
-$datas    = ["response" => "check your config ! :)"];
-$toggl          = new TogglInit();
+use App\Toggl\{
+    TogglInit,
+    TogglProject
+};
 
-if ( $toggl ) {
+$toggl    = new TogglInit();
+$init     = $toggl->initConnexion();
 
-    $init = $toggl->initConnexion();
-
-    if( $init ) {
-
-        if( $init['workspaces'] )
-        {
-            $projects = new TogglProject();
-            $datas = $projects->getProjects( $init['workspaces'] );
-        }
-    }
-}
+$projects = new TogglProject();
+$datas = $projects->getProjects( $init );
 
 echo json_encode( $datas );
 

@@ -1,27 +1,39 @@
 <?php
 
-require_once __DIR__.DIRECTORY_SEPARATOR.'TogglInit.php';
+namespace App\Toggl;
+
+//require_once __DIR__.DIRECTORY_SEPARATOR.'TogglInit.php';
 
 class TogglProject extends TogglInit
 {
-	public function getProjects( array $workspaces ):array
+	public function getProjects( ?array $init )
 	{
 		$allProjects = [];
 
-		foreach( $workspaces as $worspace ) {
+		if ( $init && isset( $init['workspaces'] ) ) {
 
-            $projects = new TogglProject();
-            $allProjects[] = $this->getProjectsOnWorkspace( $worspace['id'] );
+			foreach( $init['workspaces'] as $worspace ) {
+
+				//$projects = new TogglProject();
+				$allProjects[] = $this->getProjectsOnWorkspace( $worspace['id'] );
+			}
+
+			return $allProjects;
 		}
 		
-		return $allProjects;
+		return $this->errors;
 	}
 
 	public function getProjectsOnWorkspace( string $workSpaceId ):array
 	{
 		$response = $this->curlConnexion( "workspaces/{$workSpaceId}/projects", $this->options() );
 
-		return $this->projectResult( $response );
+		if ($response ) {
+
+			return $this->projectResult( $response );
+		}
+
+		return $this->errors;
 	}
 
 	public function projectResult( $response )
@@ -29,6 +41,9 @@ class TogglProject extends TogglInit
 		if( $response->data ) {
 
 			return $response->data;
+		}
+		else {
+			return $this->errors;
 		}
 		exit;
 	}

@@ -1,0 +1,19 @@
+{
+    "name": "benja/toggl-api",
+    "authors": [
+        {
+            "name": "bantioco",
+            "email": "benjamin.antioco@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2"
+    }
+}
