@@ -2,19 +2,23 @@
 require_once __DIR__.DIRECTORY_SEPARATOR.'TogglInit.php';
 require_once __DIR__.DIRECTORY_SEPARATOR.'TogglProject.php';
 
+$datas    = ["response" => "check your config ! :)"];
 $toggl          = new TogglInit();
-$init           = $toggl->initConnexion();
-$allProjects    = ["response" => "check your config ! :)"];
 
-if( $init ) {
+if ( $toggl ) {
 
-    if( $init['workspaces'] )
-    {
-        $projects = new TogglProject();
-        $allProjects = $projects->getProjects( $init['workspaces'] );
+    $init = $toggl->initConnexion();
+
+    if( $init ) {
+
+        if( $init['workspaces'] )
+        {
+            $projects = new TogglProject();
+            $datas = $projects->getProjects( $init['workspaces'] );
+        }
     }
 }
 
-echo json_encode( $allProjects );
+echo json_encode( $datas );
 
 exit;
